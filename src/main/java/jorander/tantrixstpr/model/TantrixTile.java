@@ -5,6 +5,7 @@ import com.github.javactic.Every;
 import com.github.javactic.Good;
 import com.github.javactic.One;
 import com.github.javactic.Or;
+import static javaslang.Function1.identity;
 import javaslang.collection.HashMap;
 import javaslang.collection.List;
 import javaslang.collection.Map;
@@ -64,25 +65,26 @@ public final class TantrixTile {
                 : Bad.of(One.of("Should have three colors specified for two edges each."));
     }
 
-    private static final Map<Integer, TantrixTile> TILES = HashMap.<Integer, Or<TantrixTile, Every<String>>>of(
-            1, tantrixTile(1, BLUE, RED, YELLOW, YELLOW, BLUE, RED),
-            7, tantrixTile(7, YELLOW, RED, BLUE, BLUE, YELLOW, RED),
-            8, tantrixTile(8, RED, YELLOW, BLUE, BLUE, RED, YELLOW),
-            9, tantrixTile(9, YELLOW, RED, YELLOW, BLUE, RED, BLUE),
-            11, tantrixTile(11, RED, BLUE, YELLOW, BLUE, YELLOW, RED),
-            13, tantrixTile(13, BLUE, YELLOW, RED, RED, YELLOW, BLUE),
-            17, tantrixTile(17, YELLOW, GREEN, RED, GREEN, RED, YELLOW),
-            18, tantrixTile(18, YELLOW, RED, GREEN, RED, GREEN, YELLOW),
-            22, tantrixTile(22, YELLOW, GREEN, RED, RED, GREEN, YELLOW),
-            23, tantrixTile(23, GREEN, YELLOW, YELLOW, RED, RED, GREEN),
-            32, tantrixTile(32, YELLOW, GREEN, YELLOW, RED, GREEN, RED),
-            34, tantrixTile(34, YELLOW, RED, YELLOW, GREEN, RED, GREEN),
-            38, tantrixTile(38, BLUE, RED, GREEN, RED, GREEN, BLUE),
-            40, tantrixTile(40, GREEN, BLUE, GREEN, RED, BLUE, RED),
-            44, tantrixTile(44, GREEN, YELLOW, GREEN, BLUE, YELLOW, BLUE),
-            55, tantrixTile(55, BLUE, GREEN, YELLOW, GREEN, YELLOW, BLUE),
-            56, tantrixTile(56, BLUE, YELLOW, GREEN, YELLOW, GREEN, BLUE))
-            .mapValues(Or::get);
+    private static final Map<Integer, TantrixTile> TILES = List.of(
+            tantrixTile(1, BLUE, RED, YELLOW, YELLOW, BLUE, RED),
+            tantrixTile(7, YELLOW, RED, BLUE, BLUE, YELLOW, RED),
+            tantrixTile(8, RED, YELLOW, BLUE, BLUE, RED, YELLOW),
+            tantrixTile(9, YELLOW, RED, YELLOW, BLUE, RED, BLUE),
+            tantrixTile(11, RED, BLUE, YELLOW, BLUE, YELLOW, RED),
+            tantrixTile(13, BLUE, YELLOW, RED, RED, YELLOW, BLUE),
+            tantrixTile(17, YELLOW, GREEN, RED, GREEN, RED, YELLOW),
+            tantrixTile(18, YELLOW, RED, GREEN, RED, GREEN, YELLOW),
+            tantrixTile(22, YELLOW, GREEN, RED, RED, GREEN, YELLOW),
+            tantrixTile(23, GREEN, YELLOW, YELLOW, RED, RED, GREEN),
+            tantrixTile(32, YELLOW, GREEN, YELLOW, RED, GREEN, RED),
+            tantrixTile(34, YELLOW, RED, YELLOW, GREEN, RED, GREEN),
+            tantrixTile(38, BLUE, RED, GREEN, RED, GREEN, BLUE),
+            tantrixTile(40, GREEN, BLUE, GREEN, RED, BLUE, RED),
+            tantrixTile(44, GREEN, YELLOW, GREEN, BLUE, YELLOW, BLUE),
+            tantrixTile(55, BLUE, GREEN, YELLOW, GREEN, YELLOW, BLUE),
+            tantrixTile(56, BLUE, YELLOW, GREEN, YELLOW, GREEN, BLUE))
+            .map(Or::get)
+            .toMap(t -> t.tileNumber, identity());
 
     public static Or<TantrixTile, One<String>> tile(int number) {
         return Or.from(TILES.get(number), One.of("Tile number " + number + " does not exist."));
