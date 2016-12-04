@@ -9,8 +9,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <javaslang.version>3.0.0-SNAPSHOT</javaslang.version>
-        <javactic.version>1.0.1</javactic.version>
+        <javaslang.version>2.1.0-alpha</javaslang.version>
+        <javactic.version>1.0.2-SNAPSHOT</javactic.version>
+        <monads.version>0.3</monads.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -30,6 +31,11 @@
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.enelson</groupId>
+            <artifactId>monads</artifactId>
+            <version>${monads.version}</version>
         </dependency>
         
         <dependency>
