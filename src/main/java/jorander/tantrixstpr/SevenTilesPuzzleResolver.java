@@ -1,5 +1,7 @@
 package jorander.tantrixstpr;
 
+import com.enelson.monads.Writer;
+import com.enelson.monads.algebra.ListMonoid;
 import static com.github.javactic.Accumulation.combined;
 import static com.github.javactic.Accumulation.withGood;
 import com.github.javactic.Every;
@@ -8,7 +10,6 @@ import com.github.javactic.Or;
 import javaslang.Function1;
 import static javaslang.Function1.identity;
 import static javaslang.API.*;
-import javaslang.Function2;
 import javaslang.collection.List;
 import javaslang.control.Option;
 import javaslang.control.Try;
@@ -23,7 +24,7 @@ public class SevenTilesPuzzleResolver {
 
     public static void main(String[] args) {
 
-        final Function1<String[], Or<List<SevenTilesPuzzle>, Every<String>>> resolvingAlgorithm
+        final Function1<String[], Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>>> resolvingAlgorithm
                 = getTiles()
                         .andThen(startPuzzlesWithTryingAllTilesInCenterPosition())
                         .andThen(placeNextTileInPuzzles(TOP_RIGHT_POSITION))
@@ -51,18 +52,19 @@ public class SevenTilesPuzzleResolver {
             );
         }
 
-        public static Or<List<SevenTilesPuzzle>, Every<String>> startPuzzlesWithTryingAllTilesInCenterPosition(List<TantrixTile> tiles) {
+        public static Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>> startPuzzlesWithTryingAllTilesInCenterPosition(List<TantrixTile> tiles) {
             return withGood(
                     sevenTilesPuzzle(tiles),
                     placedTantrixTiles(tiles),
                     (newPuzzle, tilesToPlace) -> combined(
                             tilesToPlace.map(tileToPlace -> SevenTilesPuzzle.placeNextTileInPuzzle(newPuzzle, CENTER_POSITION, tileToPlace)),
                             List.collector())
-                            .map(results -> results.flatMap(identity())))
+                            .map(results -> results.flatMap(identity()))
+                            .map(results -> Writer.of(ListMonoid.of("Starting puzzle with " + results.size() + " possible solutions."), results)))
                     .flatMap(identity());
         }
 
-        public static Or<List<SevenTilesPuzzle>, Every<String>> placeNextTileInPuzzles(TilePosition nextPosition, List<SevenTilesPuzzle> partialPossibleSolutions) {
+        public static Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>> placeNextTileInPuzzles(TilePosition nextPosition, List<SevenTilesPuzzle> partialPossibleSolutions) {
             return combined(
                     partialPossibleSolutions
                             .flatMap(puzzle
@@ -70,14 +72,18 @@ public class SevenTilesPuzzleResolver {
                                     .map(placedTile -> placeNextTileInPuzzle(puzzle, nextPosition, placedTile))
                             ),
                     List.collector())
-                    .map(results -> results.flatMap(identity()));
+                    .map(results -> results.flatMap(identity()))
+                    .map(results -> Writer.of(ListMonoid.of("Placing " + nextPosition + " tile with " + results.size() + " possible solutions left."), results));
         }
     }
 
     // Method with side-effect, for printing result
-    private static void printSolutions(Or<List<SevenTilesPuzzle>, Every<String>> solvedPuzzlesOr) {
+    private static void printSolutions(Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>> solvedPuzzlesOr) {
         solvedPuzzlesOr.forEach(
-                solvedPuzzles -> solvedPuzzles.zipWithIndex().map(solution -> "Solution (no " + (solution._2 + 1) + "): " + format(solution._1)).forEach(System.out::println),
+                solvedPuzzles -> {
+                    solvedPuzzles.getLogs().getList().forEach(System.out::println);
+                    solvedPuzzles.getValue().zipWithIndex().map(solution -> "Solution (no " + (solution._2 + 1) + "): " + format(solution._1)).forEach(System.out::println);
+                },
                 failures -> failures.map(failure -> "Error: " + failure).forEach(System.out::println));
     }
 
@@ -92,12 +98,13 @@ public class SevenTilesPuzzleResolver {
         return args -> Functions.getTiles(args);
     }
 
-    private static Function1<Or<List<TantrixTile>, Every<String>>, Or<List<SevenTilesPuzzle>, Every<String>>> startPuzzlesWithTryingAllTilesInCenterPosition() {
+    private static Function1<Or<List<TantrixTile>, Every<String>>, Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>>> startPuzzlesWithTryingAllTilesInCenterPosition() {
         return tilesOr -> tilesOr.flatMap(tiles -> Functions.startPuzzlesWithTryingAllTilesInCenterPosition(tiles));
     }
 
-    private static Function1<Or<List<SevenTilesPuzzle>, Every<String>>, Or<List<SevenTilesPuzzle>, Every<String>>> placeNextTileInPuzzles(final TilePosition nextPosition) {
-        return puzzelsOr -> puzzelsOr.flatMap(Function2.of(Functions::placeNextTileInPuzzles).apply(nextPosition));
+    private static Function1<Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>>, Or<Writer<ListMonoid, List<SevenTilesPuzzle>>, Every<String>>> placeNextTileInPuzzles(final TilePosition nextPosition) {
+        // TODO here, at the end, we end up with a complicated two-level map/flatMap. If missed code compiles, but produces wrong answer - better go with a stacked WriterT<Or> monad.
+        return puzzelsOr -> puzzelsOr.flatMap(w -> Functions.placeNextTileInPuzzles(nextPosition, w.getValue()).map(nw -> w.flatMap(ignored -> nw)));
     }
 
     private static Or<SevenTilesPuzzle, Every<String>> sevenTilesPuzzle(List<TantrixTile> tiles) {
