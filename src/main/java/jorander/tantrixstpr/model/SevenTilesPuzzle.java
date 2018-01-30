@@ -1,25 +1,22 @@
 package jorander.tantrixstpr.model;
 
-import static com.github.javactic.Accumulation.withGood;
-import com.github.javactic.Bad;
-import com.github.javactic.Every;
-import com.github.javactic.Good;
-import com.github.javactic.One;
-import com.github.javactic.Or;
-import static javaslang.API.*;
-import javaslang.Tuple;
-import javaslang.Tuple2;
-import javaslang.collection.HashMap;
-import javaslang.collection.List;
-import javaslang.collection.Map;
-import javaslang.collection.Set;
-import javaslang.control.Option;
-import static jorander.tantrixstpr.model.SevenTilesPuzzle.TilePosition.*;
+import com.github.javactic.*;
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.List;
+import io.vavr.collection.Map;
+import io.vavr.collection.Set;
+import io.vavr.control.Option;
 import jorander.tantrixstpr.model.TantrixTile.TileEdge;
-import static jorander.tantrixstpr.model.TantrixTile.TileEdge.*;
-import static lombok.AccessLevel.PRIVATE;
 import lombok.AllArgsConstructor;
 import lombok.Value;
+
+import static com.github.javactic.Accumulation.withGood;
+import static io.vavr.API.*;
+import static jorander.tantrixstpr.model.SevenTilesPuzzle.TilePosition.*;
+import static jorander.tantrixstpr.model.TantrixTile.TileEdge.*;
+import static lombok.AccessLevel.PRIVATE;
 
 @Value
 @AllArgsConstructor(access = PRIVATE)

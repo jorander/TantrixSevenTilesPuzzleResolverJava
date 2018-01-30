@@ -1,23 +1,24 @@
 package jorander.tantrixstpr;
 
-import static com.github.javactic.Accumulation.combined;
-import static com.github.javactic.Accumulation.withGood;
 import com.github.javactic.Every;
 import com.github.javactic.One;
 import com.github.javactic.Or;
-import javaslang.Function1;
-import static javaslang.Function1.identity;
-import static javaslang.API.*;
-import javaslang.Function2;
-import javaslang.collection.List;
-import javaslang.control.Option;
-import javaslang.control.Try;
+import io.vavr.Function1;
+import io.vavr.Function2;
+import io.vavr.collection.List;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import jorander.tantrixstpr.model.PlacedTantrixTile;
-import static jorander.tantrixstpr.model.PlacedTantrixTile.placedTantrixTile;
 import jorander.tantrixstpr.model.SevenTilesPuzzle;
 import jorander.tantrixstpr.model.SevenTilesPuzzle.TilePosition;
-import static jorander.tantrixstpr.model.SevenTilesPuzzle.TilePosition.*;
 import jorander.tantrixstpr.model.TantrixTile;
+
+import static com.github.javactic.Accumulation.combined;
+import static com.github.javactic.Accumulation.withGood;
+import static io.vavr.API.For;
+import static io.vavr.Function1.identity;
+import static jorander.tantrixstpr.model.PlacedTantrixTile.placedTantrixTile;
+import static jorander.tantrixstpr.model.SevenTilesPuzzle.TilePosition.*;
 
 public class SevenTilesPuzzleResolver {
 
@@ -46,7 +47,7 @@ public class SevenTilesPuzzleResolver {
 
         private static Or<Integer, One<String>> parseInteger(String s) {
             return Or.from(
-                    Try.of(() -> Integer.valueOf(s)).getOption(),
+                    Try.of(() -> Integer.valueOf(s)).toOption(),
                     One.of("\"" + s + "\" is not a valid integer.")
             );
         }

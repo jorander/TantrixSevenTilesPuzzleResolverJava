@@ -1,15 +1,15 @@
 package jorander.tantrixstpr.model;
 
-import static javaslang.Function1.identity;
+import org.junit.Test;
+
+import static io.vavr.Function1.identity;
 import static jorander.tantrixstpr.model.PlacedTantrixTile.placedTantrixTile;
 import static jorander.tantrixstpr.model.TantrixTile.BandColor.*;
-import static jorander.tantrixstpr.model.TantrixTile.TileEdge.*;
+import static jorander.tantrixstpr.model.TantrixTile.TileEdge.TOP_LEFT_EDGE;
+import static jorander.tantrixstpr.model.TantrixTile.TileEdge.TOP_RIGHT_EDGE;
 import static jorander.tantrixstpr.model.TantrixTile.tantrixTile;
 import static jorander.tantrixstpr.model.TantrixTile.tile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class PlacedTantrixTileTest {
 

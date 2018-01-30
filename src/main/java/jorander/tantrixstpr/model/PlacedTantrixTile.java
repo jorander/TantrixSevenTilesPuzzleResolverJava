@@ -1,16 +1,17 @@
 package jorander.tantrixstpr.model;
 
-import static com.github.javactic.Accumulation.withGood;
 import com.github.javactic.Bad;
 import com.github.javactic.Every;
 import com.github.javactic.Good;
 import com.github.javactic.Or;
-import javaslang.collection.List;
+import io.vavr.collection.List;
 import jorander.tantrixstpr.model.TantrixTile.BandColor;
 import jorander.tantrixstpr.model.TantrixTile.TileEdge;
-import static lombok.AccessLevel.PRIVATE;
 import lombok.AllArgsConstructor;
 import lombok.Value;
+
+import static com.github.javactic.Accumulation.withGood;
+import static lombok.AccessLevel.PRIVATE;
 
 @Value
 @AllArgsConstructor(access = PRIVATE)

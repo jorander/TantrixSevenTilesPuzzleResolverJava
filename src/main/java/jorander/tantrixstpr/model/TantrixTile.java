@@ -4,15 +4,16 @@ import com.github.javactic.Bad;
 import com.github.javactic.Good;
 import com.github.javactic.One;
 import com.github.javactic.Or;
-import static javaslang.Function1.identity;
-import javaslang.collection.HashMap;
-import javaslang.collection.List;
-import javaslang.collection.Map;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.List;
+import io.vavr.collection.Map;
+import lombok.AllArgsConstructor;
+import lombok.Value;
+
+import static io.vavr.Function1.identity;
 import static jorander.tantrixstpr.model.TantrixTile.BandColor.*;
 import static jorander.tantrixstpr.model.TantrixTile.TileEdge.*;
 import static lombok.AccessLevel.PRIVATE;
-import lombok.AllArgsConstructor;
-import lombok.Value;
 
 @Value
 @AllArgsConstructor(access = PRIVATE)

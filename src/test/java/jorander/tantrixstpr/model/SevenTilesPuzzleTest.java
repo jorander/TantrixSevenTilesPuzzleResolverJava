@@ -3,19 +3,18 @@ package jorander.tantrixstpr.model;
 import com.github.javactic.Accumulation;
 import com.github.javactic.Every;
 import com.github.javactic.Or;
-import static javaslang.Function1.identity;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.HashSet;
+import io.vavr.control.Option;
+import org.junit.Test;
+
+import static io.vavr.Function1.identity;
 import static jorander.tantrixstpr.model.PlacedTantrixTile.placedTantrixTile;
-import javaslang.collection.HashMap;
-import javaslang.collection.HashSet;
-import javaslang.control.Option;
 import static jorander.tantrixstpr.model.SevenTilesPuzzle.TilePosition.*;
-import static jorander.tantrixstpr.model.SevenTilesPuzzle.isNewTilePlacementValid;
-import static jorander.tantrixstpr.model.SevenTilesPuzzle.placeNextTileInPuzzle;
-import static jorander.tantrixstpr.model.SevenTilesPuzzle.sevenTilesPuzzle;
+import static jorander.tantrixstpr.model.SevenTilesPuzzle.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 public class SevenTilesPuzzleTest {
 

@@ -1,10 +1,13 @@
 package jorander.tantrixstpr.model;
 
-import static jorander.tantrixstpr.model.TantrixTile.BandColor.*;
-import static jorander.tantrixstpr.model.TantrixTile.*;
-import static jorander.tantrixstpr.model.TantrixTile.TileEdge.BOTTOM_LEFT_EDGE;
-import static org.junit.Assert.*;
 import org.junit.Test;
+
+import static jorander.tantrixstpr.model.TantrixTile.BandColor.*;
+import static jorander.tantrixstpr.model.TantrixTile.TileEdge.BOTTOM_LEFT_EDGE;
+import static jorander.tantrixstpr.model.TantrixTile.tantrixTile;
+import static jorander.tantrixstpr.model.TantrixTile.tile;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TantrixTileTest {
 
