@@ -7,12 +7,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.9</maven.compiler.source>
-        <maven.compiler.target>1.9</maven.compiler.target>
-        <vavr.version>0.9.2</vavr.version>
-        <javactic.version>1.0.2-SNAPSHOT</javactic.version>
-        <lombok.version>1.16.20</lombok.version>
-        <junit.version>4.12</junit.version>
+        <maven.compiler.release>17</maven.compiler.release>
+        <vavr.version>0.10.4</vavr.version>
+        <javactic.version>2.1.0</javactic.version>
+        <lombok.version>1.18.24</lombok.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencies>
@@ -43,6 +42,11 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
